@@ -1,0 +1,13 @@
+[project]
+name = "synnax-shared"
+version = "0.0.0"
+description = "Synnax shared Python pacakges"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = []
+
+[project.optional-dependencies]
+system-token-issuer = ["boto3", "boto3-stubs[lambda]", "PyJWT"]
+http-bearer-token-client = ['requests']
+all = ["synnax-shared[system-token-issuer,http-bearer-token-client]"]
