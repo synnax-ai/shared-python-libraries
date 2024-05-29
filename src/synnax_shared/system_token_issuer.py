@@ -27,14 +27,12 @@ class SystemTokenIssuer:
 
     def get_token(self) -> str:
         if self.token is None:
-            self.refresh_token()
+            return self.refresh_token()
 
-        if self.is_token_expiring():
-            self.refresh_token()
+        if self.is_token_expiring(self.token):
+            return self.refresh_token()
 
-        return self.token
-
-    def refresh_token(self) -> None:
+    def refresh_token(self) -> str:
         logging.info("Refreshing token")
         response = self.lambda_client.invoke(
             FunctionName=self.function_name,
@@ -44,10 +42,15 @@ class SystemTokenIssuer:
             ),
         )
         payload = json.loads(response["Payload"].read())
-        self.token = payload["token"]
 
-    def is_token_expiring(self) -> bool:
-        payload = jwt.decode(self.token, options={"verify_signature": False})
+        if payload["token"] is None:
+            raise Exception("Token not returned from token issuer")
+
+        self.token = payload["token"]
+        return payload["token"]
+
+    def is_token_expiring(self, token: str) -> bool:
+        payload = jwt.decode(token, options={"verify_signature": False})
         epoch_time = int(time.time())
         if payload["exp"] - epoch_time < self.refresh_before_expiry_seconds:
             return True
