@@ -33,7 +33,7 @@ class SystemTokenIssuer:
             return self.refresh_token()
 
     def refresh_token(self) -> str:
-        logging.info("Refreshing token")
+        logger.info("Refreshing token")
         response = self.lambda_client.invoke(
             FunctionName=self.function_name,
             InvocationType="RequestResponse",
