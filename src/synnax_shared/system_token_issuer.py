@@ -23,7 +23,7 @@ class SystemTokenIssuer:
         self.system_id = system_id
         self.permissions = permissions
         self.refresh_before_expiry_seconds = refresh_before_expiry_seconds
-        self.token = None
+        self.token: str | None = None
 
     def get_token(self) -> str:
         if self.token is None:
@@ -31,6 +31,8 @@ class SystemTokenIssuer:
 
         if self.is_token_expiring(self.token):
             return self.refresh_token()
+
+        return self.token
 
     def refresh_token(self) -> str:
         logger.info("Refreshing token")
