@@ -13,9 +13,9 @@ dependencies = []
 
 [project.optional-dependencies]
 system-token-issuer = ["boto3", "boto3-stubs[lambda]", "PyJWT"]
-http-bearer-token-client = ["requests", "types-requests"]
+http-client = ["requests", "types-requests", "retry", "types-retry"]
 dev = ["mypy", "black"]
-all = ["synnax-shared[system-token-issuer,http-bearer-token-client,dev]"]
+all = ["synnax-shared[system-token-issuer,http-client,dev]"]
 
 [tool.hatch.build.targets.sdist]
 include = ["/src"]
