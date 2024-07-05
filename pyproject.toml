@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "synnax-shared"
-version = "1.1.0"
+version = "1.2.0"
 description = "Synnax shared Python pacakges"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -12,10 +12,11 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-system-token-issuer = ["boto3", "boto3-stubs[lambda]", "PyJWT"]
+events = ["boto3", "boto3-stubs[sns]"]
 http-client = ["requests", "types-requests", "retry", "types-retry"]
+system-token-issuer = ["boto3", "boto3-stubs[lambda]", "PyJWT"]
 dev = ["mypy", "black"]
-all = ["synnax-shared[system-token-issuer,http-client,dev]"]
+all = ["synnax-shared[events,http-client,system-token-issuer,dev]"]
 
 [tool.hatch.build.targets.sdist]
 include = ["/src"]
