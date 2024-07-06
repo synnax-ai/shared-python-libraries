@@ -16,7 +16,7 @@ class EventPublishingClient(Generic[EventT]):
         self.sns_client = sns_client
         self.topic_arn = topic_arn
 
-    async def publish_event(self, event: EventT) -> None:
+    def publish_event(self, event: EventT) -> None:
         try:
             response = self.sns_client.publish(
                 Message=json.dumps(event),
